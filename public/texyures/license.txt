@@ -1,0 +1,11 @@
+Model Information:
+* title:	Biker
+* source:	https://sketchfab.com/3d-models/biker-b6c404b9a7814023a4cccd91403e8472
+* author:	KulerRuler (https://sketchfab.com/KulerRuler)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Biker" (https://sketchfab.com/3d-models/biker-b6c404b9a7814023a4cccd91403e8472) by KulerRuler (https://sketchfab.com/KulerRuler) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,15 +1,14 @@
-import {  PerspectiveCamera, useScroll,PositionalAudio } from "@react-three/drei";
+import {  PerspectiveCamera, useScroll,PositionalAudio, OrbitControls} from "@react-three/drei";
 import Background from "./Background";
 import { Bike } from "./Bike";
-import { useMemo,useRef, useState } from "react";
+import { useEffect, useMemo,useRef, useState } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
-import { Group } from 'three';
-import Cabin from "./cabin";
-import  Apartment  from "./apartment";
-import  Tree  from "./tree";
 import { TextSections } from "./textSections";
-import Light from "./Light";
+import Others from "./Things";
+import { Group } from "three";
+import { usePlay } from "./Play";
+import { gsap } from "gsap";
 
 
 const CURVEDISTANCE=250;
@@ -42,7 +41,8 @@ const curvpoint=useMemo(()=>[
   
 
 ],[])
-
+const sceneOpacity=useRef(0);
+const lineMaterialRef=useRef();
   const curve = useMemo(() => {
     return new THREE.CatmullRomCurve3(
     curvpoint,
@@ -61,7 +61,8 @@ const curvpoint=useMemo(()=>[
     shape.lineTo(0, 10);
     return shape;
   }, [curve]);
-
+  const stopAudioRef = useRef();
+  const startAudioRef = useRef();
   const cameragroup = useRef();
   const camreRail=useRef();
   const scroll = useScroll()
@@ -79,26 +80,26 @@ const lastScroll=useRef(0)
 
   const dividerGroup = useRef();
   const bike = useRef();
-
+const bikeIntl=useRef()
+const bikeOttl=useRef()
+const camera=useRef()
   const textSections=useMemo(()=>{
     return [ 
       {
-        camreRailDist:-1,
-      position:new THREE.Vector3(
-        curvpoint[1].x-2,
-        curvpoint[1].y,
-        curvpoint[1].z
-      ),
+      camreRailDist:-1,
+        position: new THREE.Vector3(
+          curvpoint[1].x-2,
+          curvpoint[1].y,
+          curvpoint[1].z-3),
       subtitle:`Hi I'm Arun,
       FrontEnd Developer`
    },
   {
     camreRailDist:1.5,
-    position:new THREE.Vector3(
-      curvpoint[2].x-2,
+    position: new THREE.Vector3( 
+      curvpoint[2].x-4,
       curvpoint[2].y,
-      curvpoint[2].z
-    ),
+      curvpoint[2].z-5),
     title:"PROJECTS",
     subtitle:`IMDb Clone,Hangman Game`
 
@@ -107,13 +108,69 @@ const lastScroll=useRef(0)
   
   ]
    },[])
-   
+   useEffect(() => {
+    startAudioRef.current = new Audio("/texyures/har-start.mp3");
+    stopAudioRef.current = new Audio("/texyures/har-stop.mp3");
+    startAudioRef.current.load();
+    stopAudioRef.current.load();
+    return () => {
+      // Cleanup or perform any actions when the component unmounts
+      if (startAudioRef.current) {
+        startAudioRef.current.pause();
+      }
+      if (stopAudioRef.current) {
+        stopAudioRef.current.pause();
+      }
+    };
+  }, [startAudioRef, stopAudioRef]);
+   const {play,setHasScroll,hasScroll,end,setEnd}=usePlay()
   useFrame((_state, delta) => {
+    if (play && !hasScroll && stopAudioRef.current) {
+      // Logic for playing stop audio when the bike is stopped
+      if (stopAudioRef.current.paused) {
+        stopAudioRef.current.play();
+      }
+    } else if (hasScroll && startAudioRef.current) {
+      // Logic for playing start audio when moving
+      if (startAudioRef.current.paused) {
+        startAudioRef.current.play();
+      }
+    }
   
-      const scrollOffset = Math.max(0, scroll.offset);
-    
 
+    if (window.innerWidth > window.innerHeight) {
+      // landscape
+      camera.current.fov = 30;
+      camera.current.position.z = 36;
+    } else {
+      // portrait
+      camera.current.fov = 30;
+      camera.current.position.z = 75;
+    }
     
+    if(lastScroll.current<=0 && scroll.offset >0){
+      setHasScroll(true);
+    }
+    lineMaterialRef.current.opacity=sceneOpacity.current;
+  if(play && !end && sceneOpacity.current <1){
+    sceneOpacity.current=THREE.MathUtils.lerp(
+      sceneOpacity.current,
+      1,
+      delta * 0.1
+    )
+  }
+
+  if(end && sceneOpacity.current >0){
+    sceneOpacity.current=THREE.MathUtils.lerp(
+      sceneOpacity.current,
+      0,
+      delta
+    )
+  }
+      const scrollOffset = Math.max(0, scroll.offset);
+    if(end){
+      return;
+    }
     let friction=1;
     //look to close text section
     let resetCameraRail=true;
@@ -202,7 +259,58 @@ const lastScroll=useRef(0)
           )
         )
         bike.current.quaternion.slerp(targetBikeQuaternion,delta*2);  
+
+        if(
+          cameragroup.current.position.z <
+          curvpoint[curvpoint.length - 1].z +100
+  
+        ){
+          setEnd(true);
+          bikeOttl.current.play();
+        }
+
+        bikeIntl.current=gsap.timeline();
+        bikeIntl.current.pause();
+        bikeIntl.current.from(bike.current.position,{
+          duration:3,
+          z:5,
+          y:-2,
+        })
+
+        bikeOttl.current=gsap.timeline();
+        bikeOttl.current.pause()
+
+        bikeOttl.current.to(
+          bike.current.position,
+          {
+            duration:10,
+            z:-250,
+            y:10,
+          }
+        );
+        bikeOttl.current.to(
+          camreRail.current.position,
+          {
+            duration:8,
+            y:12,
+          },
+          0
+        )
+        bikeOttl.current.to(bike.current.position,
+          {
+            duration:1,
+            z:-1000,
+
+          })
+
       });
+
+    
+      useEffect(()=>{
+        if(play){
+          bikeIntl.current.play()
+        }
+      },[play])
   const [on,setOn]=useState(false)
   // const bikeRef = useRef();
   // const VibrationEffect = ({ enabled }) => {
@@ -225,35 +333,54 @@ const lastScroll=useRef(0)
   
   //   return null;
   // };
-  return (
+  return useMemo(()=>(
     <>
    
       <ambientLight intensity={2} />
       <group ref={cameragroup}>
        <group ref={camreRail}>
-       <PerspectiveCamera position={[0,0,50]} fov={30} makeDefault />
+       <PerspectiveCamera ref={camera} position={[0,0,50]} fov={30} makeDefault />
+      
        </group>
         <Background/>
-        
+       
         <group ref={bike} onClick={()=>setOn(!on)}>
           {/* <group ref={bikeRef}> */}
           <Bike/>
             {/* <VibrationEffect enabled={on} /> */}
           {/* </group> */}
-          {on &&
+          {play &&
          <PositionalAudio 
          autoplay
-         url="/texyures/har-stop.mp3"
-         distance={1}
+         url="/texyures/har-start.mp3"
          loop
          volume={0.6} 
        /> 
        }
+      
             
         </group>
       
       </group>
-      
+      {play && !hasScroll && (
+            <PositionalAudio
+              ref={stopAudioRef}
+              autoplay
+              url="/texyures/har-stop.mp3"
+              loop
+              volume={0.6}
+            />
+          )}
+          {hasScroll && (
+            <PositionalAudio
+              ref={startAudioRef}
+              autoplay
+              url="/texyures/har-start.mp3"
+              distance={3}
+              loop
+              volume={0.9}
+            />
+          )}  
 
 
 {
@@ -262,47 +389,20 @@ const lastScroll=useRef(0)
   ))
 }
 
-<group position={[6,0,-55]}>
-  <Apartment />
-  </group>
-  <group position={[-6,0,-25]}>
-  <Cabin />
-  </group>
-  <group position={[10,-5,-25]}>
-  <Tree />
-  </group>
-  <group position={[-12,-5,35]}>
-  <Tree />
-  </group>
-  <group position={[-13,-5,-45]}>
-  <Tree />
-  </group>
-  <group  position={[-6,-5,-15]}>
-    <Light/>
-  </group>
-  <group position={[-6,-5,-35]}>
-  <Light/>
-  </group>
-  <group position={[-7,-5,-55]}>
-  <Light/>
-  </group>
-  <group position={[-8,-5,-75]}>
-  <Light/>
-  </group>
-  <group position={[-9 ,-5,-90]}>
-  <Light/>
-  </group>
+
+<Others sceneOpacity={sceneOpacity}/>
+
       <group position-y={-12} ref={dividerGroup}>
         <mesh>
           <extrudeGeometry args={[shape, { steps: LINE_NB_POINTS, bevelEnabled: false, extrudePath: curve },]} />
-          <meshStandardMaterial color={"black"} opacity={10} transparent />
+          <meshStandardMaterial color={"black"} opacity={10} transparent ref={lineMaterialRef} />
         </mesh>
 
         <mesh>
           <extrudeGeometry args={[dividerShape, { steps: LINE_NB_POINTS, bevelEnabled: false, extrudePath: curve },]} />
-          <meshStandardMaterial color={'yellow'} />
+          <meshStandardMaterial color={'yellow'} ref={lineMaterialRef} />
         </mesh>
       </group>
     </>
-  );
+  ),[]);
 };

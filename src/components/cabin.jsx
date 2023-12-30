@@ -9,7 +9,7 @@ import { useGLTF } from '@react-three/drei'
 const  Cabin=(props)=> {
   const { nodes, materials } = useGLTF('/texyures/cabin.glb')
   return (
-    <group {...props} dispose={null}>
+    <group {...props} dispose={null} scale={0.02}>
       <mesh geometry={nodes.Cottage.geometry} material={materials.lambert3SG} />
       <mesh geometry={nodes.Door.geometry} material={materials.lambert3SG} />
     </group>

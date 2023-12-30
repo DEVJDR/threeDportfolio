@@ -1,8 +1,10 @@
-import { Text } from "@react-three/drei"
+import { RoundedBox, Text } from "@react-three/drei"
 
 export const TextSections=({title,subtitle,...props})=>{
     return(
                  <group {...props}>
+                
+
                   {!!title &&(
                       <Text color="white"
                       anchorX="left"
@@ -27,6 +29,7 @@ export const TextSections=({title,subtitle,...props})=>{
                       font={"./texyures/textures/fonts/PlayfairDisplay-Regular.ttf"}>
                           {subtitle}
                       </Text>
+                 
 
                  </group> 
 

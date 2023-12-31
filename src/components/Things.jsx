@@ -9,7 +9,7 @@ import { useRef } from "react";
 
 
 const Others=({sceneOpacity})=>{
-  const materialRef=useRef()
+const materialRef=useRef()
   useFrame(()=>{
     materialRef.current.opacity=sceneOpacity.current
   })

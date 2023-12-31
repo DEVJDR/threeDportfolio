@@ -1,8 +1,10 @@
 import { styled } from "@mui/material/styles"
 import Switch from "@mui/material/Switch"
 import FormControlLabel from "@mui/material/FormControlLabel"
+import { useTheme } from "./ThemeProvider";
 
-const MaterialUISwitch = styled(Switch)(theme => ({
+
+const MaterialUISwitch = styled(Switch)(them=> ({
   width: 62,
   height: 34,
   padding: 7,
@@ -20,12 +22,12 @@ const MaterialUISwitch = styled(Switch)(theme => ({
       },
       "& + .MuiSwitch-track": {
         opacity: 1,
-        backgroundColor: theme === "day" ? "#8796A5" : "#aab4be"
+        backgroundColor: them === "day" ? "#8796A5" : "#aab4be"
       }
     }
   },
   "& .MuiSwitch-thumb": {
-    backgroundColor: theme === "day" ? "#f3a952" : "#001e3c",
+    backgroundColor: them === "day" ? "#f3a952" : "#001e3c",
     width: 32,
     height: 32,
     "&:before": {
@@ -44,15 +46,17 @@ const MaterialUISwitch = styled(Switch)(theme => ({
   },
   "& .MuiSwitch-track": {
     opacity: 1,
-    backgroundColor: theme === "day" ? "#8796A5" : "#aab4be",
+    backgroundColor: them === "day" ? "#8796A5" : "#aab4be",
     borderRadius: 20 / 2
   }
 }))
 
-const DarkLightSwitch = theme => {
+const DarkLightSwitch = () => {
+    const toggleTheme =useTheme()
+    console.log(toggleTheme)
   return (
     <FormControlLabel
-      control={<MaterialUISwitch sx={{ m: 1 }} theme={theme} />}
+      control={<MaterialUISwitch sx={{ m: 1 }} theme={toggleTheme} />}
       label={""}
     />
   )

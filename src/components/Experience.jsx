@@ -9,7 +9,7 @@ import Others from "./Things";
 import { Group } from "three";
 import { usePlay } from "./Play";
 import { gsap } from "gsap";
-
+import {ThemeProvider, useTheme} from './ThemeProvider'
 
 const CURVEDISTANCE=250;
 const CURVE_AHEAD_CAMERA=0.008;
@@ -78,8 +78,8 @@ const lastScroll=useRef(0)
     return dividerShape;
   }, []);
 
-  const dividerGroup = useRef();
-  const bike = useRef();
+const dividerGroup = useRef();
+const bike = useRef();
 const bikeIntl=useRef()
 const bikeOttl=useRef()
 const camera=useRef()
@@ -113,18 +113,20 @@ const camera=useRef()
     stopAudioRef.current = new Audio("/texyures/har-stop.mp3");
     startAudioRef.current.load();
     stopAudioRef.current.load();
-    return () => {
-      // Cleanup or perform any actions when the component unmounts
-      if (startAudioRef.current) {
-        startAudioRef.current.pause();
-      }
-      if (stopAudioRef.current) {
-        stopAudioRef.current.pause();
-      }
-    };
-  }, [startAudioRef, stopAudioRef]);
+    
+    // return () => {
+    //   // Cleanup or perform any actions when the component unmounts
+    //   if (startAudioRef.current) {
+    //     startAudioRef.current.pause();
+    //   }
+    //   if (stopAudioRef.current) {
+    //     stopAudioRef.current.pause();
+    //   }
+    // };
+  });
    const {play,setHasScroll,hasScroll,end,setEnd}=usePlay()
   useFrame((_state, delta) => {
+    
     if (play && !hasScroll && stopAudioRef.current) {
       // Logic for playing stop audio when the bike is stopped
       if (stopAudioRef.current.paused) {
@@ -136,7 +138,6 @@ const camera=useRef()
         startAudioRef.current.play();
       }
     }
-  
 
     if (window.innerWidth > window.innerHeight) {
       // landscape
@@ -304,43 +305,21 @@ const camera=useRef()
           })
 
       });
-
-    
       useEffect(()=>{
         if(play){
           bikeIntl.current.play()
         }
       },[play])
   const [on,setOn]=useState(false)
-  // const bikeRef = useRef();
-  // const VibrationEffect = ({ enabled }) => {
-  
-  
-  //   const amplitude = 0.1; // Vibration amplitude
-  //   const frequency = 1.5; // Vibration frequency
-  
-  //   useFrame((_state, delta) => {
-  //     if (enabled) {
-  //       const time = _state.clock.elapsedTime;
-  
-  //       // Calculate vertical position using a sinusoidal function
-  //       const y = Math.sin(time * frequency) * amplitude;
-  
-  //       // Apply the vertical position to the bike
-  //       bikeRef.current.position.setY(y);
-  //     }
-  //   });
-  
-  //   return null;
-  // };
+ 
+
   return useMemo(()=>(
     <>
-   
       <ambientLight intensity={2} />
       <group ref={cameragroup}>
        <group ref={camreRail}>
        <PerspectiveCamera ref={camera} position={[0,0,50]} fov={30} makeDefault />
-      
+  
        </group>
         <Background/>
        
@@ -362,13 +341,14 @@ const camera=useRef()
         </group>
       
       </group>
-      {play && !hasScroll && (
+      {/* {play && !hasScroll && (
             <PositionalAudio
               ref={stopAudioRef}
               autoplay
               url="/texyures/har-stop.mp3"
               loop
               volume={0.6}
+              
             />
           )}
           {hasScroll && (
@@ -380,7 +360,7 @@ const camera=useRef()
               loop
               volume={0.9}
             />
-          )}  
+          )}   */}
 
 
 {

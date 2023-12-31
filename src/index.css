@@ -61,17 +61,23 @@ body {
 .logo {
   font-family: "DM Serif Display", serif;
   color: white;
-  font-size: 8rem;
+  font-size: 2rem;
   letter-spacing: 0.5rem;
   padding: 0;
   margin: 0;
-  transform: translateY(-50%);
+  transform: translateY(-20%);
   position: absolute;
-  top: 50vh;
+  top: 10px; /* Adjust the top distance as needed */
+  left: 10px;
   animation: fadeUp 2.4s ease-in-out;
   transition: all 2s ease-in-out;
 }
-
+.switch {
+  margin: 0;
+  position: fixed; /* Use 'fixed' for a position relative to the viewport */
+  top: 10px; /* Adjust the top distance as needed */
+  right: 10px; /* Adjust the right distance as needed */
+}
 .intro--disappear .logo {
   top: 42px;
   transform: scale(0.25);
@@ -81,7 +87,7 @@ body {
 .spinner {
   position: absolute;
   right: 0px;
-  top: 0px;
+  top: 20px;
   margin-right: -42px;
   margin-top: -42px;
   animation: fadeIn 2.4s ease-in-out 1.2s forwards;
@@ -89,8 +95,8 @@ body {
 }
 
 .spinner__image {
-  width: 164px;
-  height: 164px;
+  width: 64px;
+  height: 64px;
   background-size: contain;
   background-image: url("/vite.svg");
   animation: rotate 10s linear infinite;

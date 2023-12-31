@@ -11,6 +11,7 @@ import { useGLTF } from '@react-three/drei'
   return (
     <group {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 1.3]} scale={58.6}>
+        <directionalLight position={[2,0,0]} intensity={2} color={"blue"}/>
         <mesh geometry={nodes.StreetLight_1.geometry} material={materials.Grey} />
         <mesh geometry={nodes.StreetLight_2.geometry} material={materials.Light} />
       </group>

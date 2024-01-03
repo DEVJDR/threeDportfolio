@@ -10,7 +10,7 @@ export function Bike(props) {
   const rear = useRef()
   const {  hasScroll } = usePlay();
   useFrame((_state, delta) => {
-  if(scroll.current){
+  if(hasScroll){
     front.current.rotation.x += delta * 5
     rear.current.rotation.x += delta * 5
   }

@@ -4,6 +4,8 @@ import { useTheme } from "../context/ThemeProvider";
 import Brightness2Icon from "@mui/icons-material/Brightness2";
 import WbSunnyRoundedIcon from "@mui/icons-material/WbSunnyRounded";
 
+
+
 export const Overlay = () => {
     const{theme,toggleTheme}=useTheme();
     console.log(theme)
@@ -23,14 +25,10 @@ export const Overlay = () => {
          
           <h1 className="logo">
             DEVJDR.  
-           
-           
             <div className="spinner">
               <div className="spinner__image" />
             </div>
           </h1>
-        
-          
           <p className="intro__scroll">Scroll to begin the journey</p>
           <button
             className="explore"
@@ -41,22 +39,20 @@ export const Overlay = () => {
             Explore
           </button>
         </div>
-      )}
-       
+      )} 
       <div className={`outro ${end ? "outro--appear" : ""}`}>
-        <p> <a
+        <p><a
+            href="https://drive.google.com/file/d/1YOyQThg3ip9M2EgpOtqZPQONWdogn99M/view?usp=sharing"
             className="explore"
             style={{ pointerEvents: 'auto', textDecoration: 'none' }}
-          >
-            Resume
-          </a> <a
+          >Resume
+          </a><a
           href="mailto:arunjev26@gmail.com"
             className="explore"
             style={{ pointerEvents: 'auto', textDecoration: 'none' }}
           >
             Contact
           </a></p>
-       
       </div>
       <div className="switch" >
       <button
@@ -64,11 +60,10 @@ export const Overlay = () => {
         onClick={toggleTheme}
         className='btn btn--icon nav__theme'
         aria-label='toggle theme'
-        style={{ pointerEvents :'auto' }}
+        style={{ pointerEvents :'auto'}}
       >
         {theme === 'dark' ? <WbSunnyRoundedIcon /> : <Brightness2Icon />}
       </button>
-
       </div>
       </div>
     </>

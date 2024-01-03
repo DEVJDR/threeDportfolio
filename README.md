@@ -1,8 +1,13 @@
-# React + Vite
+# 3D Portfolio Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project showcases a 3D Portfolio Website developed with React Three Fiber, offering users an immersive and visually captivating experience. The website aims to evoke a serene ambiance through its minimalistic and aesthetically pleasing interface, providing a unique and engaging way to explore the content.
 
-Currently, two official plugins are available:
+![Alt text](public/texyures/pic.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+
+## Features
+
+This React Three Fiber 3D Portfolio features a dynamic environment, responsive design, scroll-driven animations, interactive bike animation, audio integration, and a calming minimalistic interface.
+
+

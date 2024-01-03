@@ -1,15 +1,15 @@
-import {  PerspectiveCamera, useScroll,PositionalAudio, OrbitControls} from "@react-three/drei";
+import {  PerspectiveCamera, useScroll,PositionalAudio} from "@react-three/drei";
 import Background from "./Background";
-import { Bike } from "./Bike";
+import { Bike } from "../things/Bike";
 import { useEffect, useMemo,useRef, useState } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
-import { TextSections } from "./textSections";
-import Others from "./Things";
+import { TextSections } from "./TextSections";
+import Others from "../things/Things";
 import { Group } from "three";
-import { usePlay } from "./Play";
+import { usePlay } from "../context/Play";
 import { gsap } from "gsap";
-import {ThemeProvider, useTheme} from './ThemeProvider'
+
 
 const CURVEDISTANCE=250;
 const CURVE_AHEAD_CAMERA=0.008;
@@ -17,8 +17,8 @@ const CURVE_AHEAD_BIKE=0.02;
 const Bike_max_Angle=30;
 const FRICTION_DISTANCE=42;
 export const Experience = () => {
+
 const curvpoint=useMemo(()=>[
-  
     new THREE.Vector3(0, 0, 0),
     new THREE.Vector3(0, 0, -CURVEDISTANCE),
     new THREE.Vector3(100, 0, -2*CURVEDISTANCE),
@@ -27,18 +27,6 @@ const curvpoint=useMemo(()=>[
     new THREE.Vector3(0, 0, -5*CURVEDISTANCE),
     new THREE.Vector3(0, 0, -6*CURVEDISTANCE),
     new THREE.Vector3(0, 0, -7*CURVEDISTANCE),
-    // new THREE.Vector3(-16, 0, -80),
-    // new THREE.Vector3(-18, 0, -90),
-    // new THREE.Vector3(-20, 0, -100),
-    // new THREE.Vector3(-22, 0, -110),
-    // new THREE.Vector3(-24, 0, -120),
-    // new THREE.Vector3(-26, 0, -130),
-    // new THREE.Vector3(-28, 0, -140),
-    // new THREE.Vector3(-30, 0, -150),
-    // new THREE.Vector3(-32, 0, -160),
-    // new THREE.Vector3(-34, 0, -170),
-
-  
 
 ],[])
 const sceneOpacity=useRef(0);
@@ -51,9 +39,6 @@ const lineMaterialRef=useRef();
   
   
   const LINE_NB_POINTS = 1000;
-  // const linepoints = useMemo(() => {
-  //   return curve.getPoints(LINE_NB_POINTS);
-  // }, [curve]);
 
   const shape = useMemo(() => {
     const shape = new THREE.Shape();
@@ -66,8 +51,8 @@ const lineMaterialRef=useRef();
   const cameragroup = useRef();
   const camreRail=useRef();
   const scroll = useScroll()
-  const dividerWidth = 0.2; // Adjust as needed
-  const dividerHeight = 0.5; // Adjust as needed
+  const dividerWidth = 0.2; 
+  const dividerHeight = 0.5; 
 const lastScroll=useRef(0)
   const dividerShape = useMemo(() => {
     const dividerShape = new THREE.Shape();
@@ -91,8 +76,7 @@ const camera=useRef()
           curvpoint[1].x-2,
           curvpoint[1].y,
           curvpoint[1].z-3),
-      subtitle:`Hi I'm Arun,
-      FrontEnd Developer`
+      subtitle:`Hi I'm Arun`
    },
   {
     camreRailDist:1.5,
@@ -100,11 +84,20 @@ const camera=useRef()
       curvpoint[2].x-4,
       curvpoint[2].y,
       curvpoint[2].z-5),
-    title:"PROJECTS",
-    subtitle:`IMDb Clone,Hangman Game`
+    title:"SKILLS",
+    subtitle:`JS,React,React Three Fiber`
+
+  },
+  {
+    camreRailDist:1.5,
+    position: new THREE.Vector3( 
+      curvpoint[3].x-4,
+      curvpoint[3].y,
+      curvpoint[3].z-5),
+    title:"Front End Developer.",
+    subtitle:`Proficient in HTML, CSS, JavaScript, and React.js, I create dynamic, responsive, and engaging online experiences.`
 
   }
-  
   
   ]
    },[])
@@ -114,15 +107,6 @@ const camera=useRef()
     startAudioRef.current.load();
     stopAudioRef.current.load();
     
-    // return () => {
-    //   // Cleanup or perform any actions when the component unmounts
-    //   if (startAudioRef.current) {
-    //     startAudioRef.current.pause();
-    //   }
-    //   if (stopAudioRef.current) {
-    //     stopAudioRef.current.pause();
-    //   }
-    // };
   });
    const {play,setHasScroll,hasScroll,end,setEnd}=usePlay()
   useFrame((_state, delta) => {
@@ -137,16 +121,20 @@ const camera=useRef()
       if (startAudioRef.current.paused) {
         startAudioRef.current.play();
       }
+      if (end) {
+        startAudioRef.current.pause();
+        stopAudioRef.current.pause();
+      }
     }
 
     if (window.innerWidth > window.innerHeight) {
       // landscape
-      camera.current.fov = 30;
-      camera.current.position.z = 36;
+      camera.current.fov = 40;
+      camera.current.position.z = 40;
     } else {
       // portrait
       camera.current.fov = 30;
-      camera.current.position.z = 75;
+      camera.current.position.z = 85;
     }
     
     if(lastScroll.current<=0 && scroll.offset >0){
@@ -310,7 +298,7 @@ const camera=useRef()
           bikeIntl.current.play()
         }
       },[play])
-  const [on,setOn]=useState(false)
+ 
  
 
   return useMemo(()=>(
@@ -323,46 +311,12 @@ const camera=useRef()
        </group>
         <Background/>
        
-        <group ref={bike} onClick={()=>setOn(!on)}>
-          {/* <group ref={bikeRef}> */}
+        <group ref={bike} >
           <Bike/>
-            {/* <VibrationEffect enabled={on} /> */}
-          {/* </group> */}
-          {play &&
-         <PositionalAudio 
-         autoplay
-         url="/texyures/har-start.mp3"
-         loop
-         volume={0.6} 
-       /> 
-       }
-      
-            
         </group>
       
       </group>
-      {/* {play && !hasScroll && (
-            <PositionalAudio
-              ref={stopAudioRef}
-              autoplay
-              url="/texyures/har-stop.mp3"
-              loop
-              volume={0.6}
-              
-            />
-          )}
-          {hasScroll && (
-            <PositionalAudio
-              ref={startAudioRef}
-              autoplay
-              url="/texyures/har-start.mp3"
-              distance={3}
-              loop
-              volume={0.9}
-            />
-          )}   */}
-
-
+  
 {
   textSections.map((textSection,index)=>(
     <TextSections {...textSection} key={index}/>

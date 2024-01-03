@@ -1,21 +1,18 @@
 import React from 'react';
-import { Environment, Sphere, Html,Sky } from '@react-three/drei';
+import {Sphere } from '@react-three/drei';
 import { Gradient, LayerMaterial } from 'lamina';
 import * as THREE from 'three';
-import { useTheme } from './ThemeProvider';
-
+import { useTheme } from '../context/ThemeProvider';
 
 const Background = () => {
   const {theme}=useTheme()
-  
-  const gradientColorA = theme === 'light' ? '#01162e' : '#B2F2FF';
-  const gradientColorB = theme === 'light' ? '#b2f2ff' : '#EBFFFF';
+  const gradientColorA = theme === 'light' ? '#78b6ff' : '#093e58';
+  const gradientColorB = theme === 'light' ? '#62d2bd' : '#EBFFFF';
   return (
     <>
-    
       <Sphere scale={[100, 100, 100]} rotation-y={Math.PI / 2}>   
         <LayerMaterial lighting='physical' transmission={1} side={THREE.BackSide}>
-        <Gradient colorA={gradientColorA} colorB={gradientColorB} axes="y" start={0} end={-0.5} />
+          <Gradient colorA={gradientColorA} colorB={gradientColorB} axes="y" start={0} end={-0.5} />
         </LayerMaterial>
       </Sphere>
       

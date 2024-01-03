@@ -1,15 +1,18 @@
 import { Canvas} from "@react-three/fiber";
 import {Experience} from './components/Experience'
-import {ScrollControls} from "@react-three/drei";
+import {ScrollControls,OrbitControls,Loader} from "@react-three/drei";
 import { Overlay } from "./components/Overlay";
-import { ThemeProvider } from "./components/ThemeProvider";
+import { ThemeProvider } from "./context/ThemeProvider";
 
 function App() {
+
+
   return (
     <>
     <ThemeProvider>
         <Canvas camera={{ position: [0, 0, 5], fov: 30 }}>
-        <color attach="background" args={["#ececec"]} />
+      
+        <color attach="background" args={["#78b6ff"]} />
               <ScrollControls
                 pages={20} damping={0.5}
                 style={{
@@ -25,8 +28,10 @@ function App() {
                 onScroll={() => setHasScroll(true)}>
               <Experience />
             </ScrollControls>
+            
           </Canvas>
         <Overlay/>
+        <Loader />
     </ThemeProvider> 
     </>
   );

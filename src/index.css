@@ -61,14 +61,14 @@ body {
 .logo {
   font-family: "DM Serif Display", serif;
   color: white;
-  font-size: 2rem;
+  font-size: 6rem;
   letter-spacing: 0.5rem;
   padding: 0;
   margin: 0;
   transform: translateY(-20%);
   position: absolute;
-  top: 10px; /* Adjust the top distance as needed */
-  left: 10px;
+  top: 255px; /* Adjust the top distance as needed */
+  left: 550px;
   animation: fadeUp 2.4s ease-in-out;
   transition: all 2s ease-in-out;
 }
@@ -79,15 +79,16 @@ body {
   right: 10px; /* Adjust the right distance as needed */
 }
 .intro--disappear .logo {
-  top: 42px;
-  transform: scale(0.25);
+  top: 15px; /* Adjust the top distance as needed */
+left: .2px;
+  transform: scale(.5);
   transform-origin: center top;
 }
 
 .spinner {
   position: absolute;
-  right: 0px;
-  top: 20px;
+  right: 34px;
+  top: 102.5px;
   margin-right: -42px;
   margin-top: -42px;
   animation: fadeIn 2.4s ease-in-out 1.2s forwards;
@@ -95,10 +96,10 @@ body {
 }
 
 .spinner__image {
-  width: 64px;
-  height: 64px;
+  width: 60px;
+  height: 60px;
   background-size: contain;
-  background-image: url("/vite.svg");
+  background-image: url("/hk.png");
   animation: rotate 10s linear infinite;
 }
 
@@ -131,7 +132,8 @@ body {
   font-family: "DM Serif Display", serif;
   font-size: 1.25rem;
   letter-spacing: 0.25rem;
-  color: #3535cc;
+  color: #222235;
+  background: white;
   border-radius: 32px;
   cursor: pointer;
   display: inline-block;
@@ -140,7 +142,7 @@ body {
   position: relative;
   z-index: 1;
   overflow: hidden;
-  transition: 0.42s ease-in-out;
+  transition: 0.40s ease-in-out;
   animation: fadeIn 2.4s ease-in-out 2s forwards;
   opacity: 0;
 }
@@ -157,7 +159,7 @@ body {
 
 .explore:before {
   content: "";
-  background: #3535cc;
+  background: #1d1d2a;
   position: absolute;
   width: 0%;
   bottom: 0;
@@ -205,6 +207,7 @@ body {
 
   .intro--disappear .logo {
     top: 24px;
+    left:1px;
     transform: scale(0.5);
     transform-origin: center top;
   }
@@ -216,6 +219,9 @@ body {
 
   .outro__text {
     font-size: 1rem;
+  }
+  body {
+    overflow: hidden;
   }
 }
 

@@ -3,21 +3,23 @@
 import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-
+import { usePlay } from "../context/Play";
 export function Bike(props) {
 
   const front = useRef()
   const rear = useRef()
-
+  const {  hasScroll } = usePlay();
   useFrame((_state, delta) => {
+  if(scroll.current){
     front.current.rotation.x += delta * 5
     rear.current.rotation.x += delta * 5
+  }
   })
 
 
   const { nodes, materials } = useGLTF('/texyures/scene.gltf')
   return (
-    <group {...props} dispose={null} rotation={[0,3.1,6.3]} scale={.8} position={[-1,-3.8,-4]}>
+    <group {...props} dispose={null} rotation={[0,3.1,6.3]} scale={.8} position={[-1,-2,-4]}>
       <group position={[0, -7.952, 5.9]} rotation={[0, 0, 0]} ref={front}>
         <group position={[0, 0, 1.01]}> {/* Adjust the pivot point */}
           <mesh geometry={nodes.Object_4.geometry} material={materials['Material.004']} />
